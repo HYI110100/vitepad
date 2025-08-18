@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= ENV_NAME %></title>
+</head>
+<body>
+  <h1>欢迎来到 <%= ENV_NAME %> 环境</h1>
+  <p>Port: <span id="port"><%= PORT %></span></p>
+  <script>
+    console.log('Environment:', '<%= ENV_NAME %>')
+  </script>
+</body>
+</html>

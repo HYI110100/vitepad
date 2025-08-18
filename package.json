@@ -1,0 +1,33 @@
+{
+    "name": "vite-static-serve",
+    "version": "1.0.0",
+    "description": "Quickly start and manage multiple local environments for front-end testing, with Vite and optional proxy",
+    "type": "module",
+    "bin": {
+        "vserve": "./bin/serve.js"
+    },
+    "scripts": {
+        "s": "npx vserve start",
+        "ls": "npx vserve list",
+        "a": "npx vserve add",
+        "rm": "npx vserve remove"
+    },
+    "keywords": [
+        "vite",
+        "static-server",
+        "cli",
+        "proxy"
+    ],
+    "author": "HYI110100",
+    "license": "MIT",
+    "dependencies": {
+        "vite": "^5.4.2",
+        "inquirer": "^9.2.12",
+        "chalk": "^5.3.0",
+        "detect-port": "^2.1.0"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "devDependencies": {}
+}

@@ -1,0 +1,38 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS 系统文件
+.DS_Store
+Thumbs.db
+
+# 构建产物
+dists/
+dist/
+build/
+.vite
+
+# 本地配置 / 临时文件
+.env
+.env.local
+.env.*.local
+.env.*.json
+env.config.json
+
+# 编辑器 / IDE 文件
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# 日志
+*.log
+
+# 临时文件
+*.tmp
+*.swp
