@@ -80,9 +80,9 @@ async function cmdAdd(name) {
   }
 
   const portAns = await inquirer.prompt([
-    { type: 'input', name: 'port', message: '端口号(默认6000):', default: '6000' }
+    { type: 'input', name: 'port', message: '端口号(默认3000):', default: '3000' }
   ])
-  let port = parseInt(portAns.port, 10) || 6000
+  let port = parseInt(portAns.port, 10) || 3000
   port = await detect(port)
 
   const rootAns = await inquirer.prompt([
