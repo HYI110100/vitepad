@@ -1,8 +1,13 @@
-#!/usr/bin/env node
 import { logError } from '~/utils/logger';
 import { program } from 'commander'
 import { getVersion } from '~/utils/utils'
 import chalk from 'chalk';
+// 命令
+import { registerRemoveCommand } from '~/commands/remove';
+import { registeListCommand } from './commands/list';
+import { registerEditCommand } from './commands/edit';
+import { registerCreateCommand } from './commands/create';
+import { registerStopCommand } from './commands/stop';
 
 async function validateEnvironment() {
     // TODO: vite检查
@@ -36,8 +41,16 @@ ${chalk.cyan('📦 并行测试、端口智能分配')}
 ${chalk.magenta('🌐 代理规则、隔离环境')}
 
 `);
-            
+
         });
+
+    // 注册命令 
+    registerCreateCommand(program)
+    registerRemoveCommand(program)
+    registeListCommand(program)
+    registerEditCommand(program)
+    registerStopCommand(program)
+
     // 解析命令行参数
     program.parse();
 
