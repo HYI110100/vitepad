@@ -19,6 +19,7 @@ export interface CreateCommand extends BaseCommand {
 export interface ListCommand extends BaseCommand {
     detail?: boolean;       // 显示详细信息
     json?: boolean;         // 以JSON格式输出
+    run?: boolean;         // 停止运行中的服务
 }
 export interface RemoveCommand extends BaseCommand {
     names: string[]         // 要移除的服务名称，如果不填写进入交互选择

@@ -32,7 +32,7 @@ export const registerCreateCommand = (program: Command): void => {
   program
     .command('create')
     .alias('cr')
-    .description('创建新的服务环境')
+    .description('创建新的服务')
     .argument('[name]', '服务的唯一标识名称')
     .option('-p, --port <number>', '指定服务运行的端口号 (默认自动分配)')
     .option('-d, --dir <path>', '构建输出目录路径 (初次创建时会复制内容到隔离环境)')

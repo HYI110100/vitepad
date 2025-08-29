@@ -39,7 +39,7 @@ export const registerStartCommand = (program: Command): void => {
   program
         .command('start')
         .alias('st')
-        .description('启动指定名称服务')
+        .description('启动指定服务')
         .argument('[ServiceName...]', '服务的唯一标识名称')
         .option('-a, --all', '一键全部启动')
         .option('-u, --update', '更新网站（根据创建是添加的dir目录，自动复制到网站目录）')

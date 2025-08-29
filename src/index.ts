@@ -4,10 +4,11 @@ import { getVersion } from '~/utils/utils'
 import chalk from 'chalk';
 // 命令
 import { registerRemoveCommand } from '~/commands/remove';
-import { registeListCommand } from './commands/list';
-import { registerEditCommand } from './commands/edit';
-import { registerCreateCommand } from './commands/create';
-import { registerStopCommand } from './commands/stop';
+import { registeListCommand } from '~/commands/list';
+import { registerEditCommand } from '~/commands/edit';
+import { registerCreateCommand } from '~/commands/create';
+import { registerStopCommand } from '~/commands/stop';
+import { registerStartCommand } from '~/commands/start';
 
 async function validateEnvironment() {
     // TODO: vite检查
@@ -49,6 +50,7 @@ ${chalk.magenta('🌐 代理规则、隔离环境')}
     registerRemoveCommand(program)
     registeListCommand(program)
     registerEditCommand(program)
+    registerStartCommand(program)
     registerStopCommand(program)
 
     // 解析命令行参数
