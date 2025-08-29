@@ -17,16 +17,14 @@ function initializeLogger() {
  * 创建 CLI 程序
  */
 async function createCLI() {
-
     const version = getVersion();
 
     program
         .name('vitepad')
         .alias('vpad')
         .version(version)
-        .helpInformation
-        
-    program.addHelpText('before', `${chalk.blue.bold(`
+        .action(() => {
+            console.info(`${chalk.blue.bold(`
 ╔══════════════════════════════════════════════╗
 ║                                              ║
 ║   ${chalk.yellow('🚀 VitePad')} - ${chalk.cyan('Vite多环境管理工具')}            ║
@@ -38,6 +36,8 @@ ${chalk.cyan('📦 并行测试、端口智能分配')}
 ${chalk.magenta('🌐 代理规则、隔离环境')}
 
 `);
+            
+        });
     // 解析命令行参数
     program.parse();
 
