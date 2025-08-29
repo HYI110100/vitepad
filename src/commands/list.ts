@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import {  ListCommand } from "~/types/commands";
+import { ListCommand } from "~/types/commands";
 import { icons, logError, theme } from "~/utils/logger";
 import util from "util";
 
@@ -8,15 +8,15 @@ import util from "util";
  */
 const command = async (options: ListCommand): Promise<void> => {
   try {
-  const data:any[] = []  // getServices()
-    if (!data.length) {
+    const services: any[] = []  // getServices()
+    if (!services.length) {
       console.log(`\n${icons.info}  ${theme.muted('暂无服务配置')}`);
       console.log(`${theme.muted('使用 ')}${theme.highlight('vitepad caeate <服务名>')}${theme.muted(' 快速添加新服务')}`);
       return
     }
     if (options.json === true && options.detail === true) {
-      const dataDetails: any[] = [] // getServicesByDetails()
-      console.log(util.inspect(dataDetails, {
+      const serviceDetails: any[] = [] // getServicesByDetails()
+      console.log(util.inspect(serviceDetails, {
         depth: null,        // 显示无限层级
         colors: true,       // 彩色输出
         showHidden: false,  // 不显示隐藏属性
@@ -25,12 +25,12 @@ const command = async (options: ListCommand): Promise<void> => {
       return
     }
     if (options.json === true) {
-      console.log(data)
+      console.log(services)
       return
     }
     if (options.detail === true) {
-      const dataDetails: any[] = [] // getServicesByDetails()
-      dataDetails.forEach((item, i) => {
+      const serviceDetails: any[] = [] // getServicesByDetails()
+      serviceDetails.forEach((item, i) => {
         console.log(`\n${icons.service}  ${theme.highlight.bold(item.id)}`);
         console.log(`   ${icons.folder}  目录: ${theme.muted(item.name)}`);
         console.log(`   ${icons.folder}  目录: ${theme.muted(item.directory)}`);
@@ -50,7 +50,7 @@ const command = async (options: ListCommand): Promise<void> => {
       return
     }
 
-    const tableData = data.map(x => ({
+    const tableData = services.map(x => ({
       ID: x.id,
       NAME: x.name,
       PORT: x.port,
