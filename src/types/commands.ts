@@ -13,7 +13,7 @@ export interface CreateCommand extends BaseCommand {
     name: string            // 服务名称
     port?: number           // 网站端口，自增
     dir?: string            // 网站所在目录
-    proxy?: ProxyOptions[]  // 多次命令格式 /api::http://api.example.com 自动解析格式
+    proxy?: string[]  // 多次命令格式 /api::http://api.example.com 自动解析格式
     viteConfig?: string
 }
 export interface ListCommand extends BaseCommand {
