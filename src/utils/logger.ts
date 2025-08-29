@@ -72,3 +72,17 @@ export const logCancelled = (message: string = "操作已取消", detail?: any) 
     console.log(`   ${theme.muted(detail)}`);
   }
 };
+export const logWelcome = () => {
+  console.log(`${chalk.blue.bold(`
+╔══════════════════════════════════════════════╗
+║                                              ║
+║   ${chalk.yellow('🚀 VitePad')} - ${chalk.cyan('Vite多环境管理工具')}            ║
+║                                              ║
+╚══════════════════════════════════════════════╝`)}
+
+${chalk.green('✨ 轻松管理多个Vite环境')}
+${chalk.cyan('📦 并行测试、端口智能分配')}
+${chalk.magenta('🌐 代理规则、隔离环境')}
+
+`);
+};
