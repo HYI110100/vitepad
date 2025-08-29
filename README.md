@@ -1,128 +1,57 @@
+# vitepad - 多环境静态服务管理器
 
-# vite-static-serve
+🚀 **专为前端多分支、多环境测试而生的轻量级服务调度工具**
 
-[🇨🇳 中文版](#中文版) | [🇺🇸 English Version](#english-version)
+## 痛点背景
 
----
+作为前端开发者，在日常工作中是否经常面临这样的困扰：
 
-## 中文版
+- 🤔 **多分支并行测试困难**：需要同时测试 `main`、`feat-login`、`feat-payment` 等多个分支时，不得不频繁切换和重新配置
+- 🔄 **环境配置管理复杂**：不同分支需要配置不同的 API 代理规则、环境变量和端口设置
+- 🚪 **端口冲突频繁**：手动管理各个环境的端口号，经常遇到端口被占用的问题
+- 📦 **构建产物管理繁琐**：需要为每个分支维护独立的构建目录，难以保持一致性
+- 🐌 **工作效率低下**：反复切换分支、修改配置、重启服务，浪费大量开发时间
 
-**轻量、多环境、本地快速静态服务管理工具**，基于 **Vite**。
-适合小团队或个人开发者在本地调试多个分支或环境，无需 Nginx。
+## 解决方案
+vitepad 是一个基于 Vite Preview 的智能静态服务管理器，为您提供完整的解决方案：
+### ✨ 核心特性
 
-### 核心特性
+- **多环境并行服务**：一键同时启动多个分支的构建产物，实现真正的同时测试
+- **智能端口管理**：自动分配和记忆端口号，智能解决端口冲突问题
+- **独立代理配置**：每个环境支持独立的 API 代理规则，互不干扰
+- **零配置快速启动**：开箱即用，无需复杂配置，专注于业务开发
+- **完整 Vite 兼容**：支持所有 Vite 命令行参数和功能，无缝迁移
+- **跨平台支持**：完美支持 Windows、macOS、Linux 等主流操作系统
 
-* ⚡ 多环境管理，快速启动不同端口
-* 🔀 内置代理，方便前后端联调
-* 🗂 自动生成默认页面
-* 💻 简单 CLI：`vserve start/add/list/remove`
+### 🎯 典型应用场景
 
-### 安装
+- **A/B 功能对比测试**：同时运行两个功能分支进行可视化对比
+- **多环境验证**：并行测试 production、staging、development 等不同环境
+- **协作代码评审**：为每个 Pull Request 生成独立的测试环境链接
+- **客户演示环境**：为不同客户提供定制化的演示环境，互不干扰
+- **自动化测试流水线**：在 CI/CD 环境中并行运行多环境测试套件
 
-```bash
-git clone https://github.com/<your-username>/vite-static-serve.git
-cd vite-static-serve
-npm install
+## 技术优势
 
-# 可选全局安装
-npm install -g .
-```
+### 🆚 与其他方案对比
 
-### 使用示例
+| 功能特性 | vitepad | 原生 Vite | Nginx |
+|---------|--------|-----------|-------|
+| 多环境并行支持 | ✅ 原生支持 | ❌ 无法实现 | ⚠️ 需要复杂配置 |
+| 智能端口管理 | ✅ 自动分配 | ❌ 手动管理 | ❌ 手动配置 |
+| 代理规则隔离 | ✅ 环境独立 | ❌ 全局共享 | ✅ 可配置 |
+| 零配置快速启动 | ✅ 开箱即用 | ❌ 需要配置 | ❌ 需要安装配置 |
+| 构建产物服务 | ✅ 专业优化 | ✅ 支持 | ✅ 支持 |
+| 开发热重载 | ❌ 不适用 | ✅ 核心功能 | ❌ 不支持 |
 
-```bash
-# 添加环境
-npx vserve add dev
+### 💡 设计理念
 
-# 启动环境
-npx vserve start dev
+vitepad 旨在填补现有工具之间的空白，提供最佳的使用体验：
 
-# 列出环境
-npx vserve list
-
-# 删除环境
-npx vserve remove dev
-```
-
-### 项目结构
-
-```
-bin/
-  serve.js
-dists/
-templates/
-  index.html
-env.config.json
-package.json
-vite.config.js
-.gitignore
-```
-
-### 依赖
-
-* [vite](https://vitejs.dev/) ⚡ 核心服务
-* [inquirer](https://www.npmjs.com/package/inquirer) 📝 CLI 交互
-* [chalk](https://www.npmjs.com/package/chalk) 🎨 终端高亮
-* [detect-port](https://www.npmjs.com/package/detect-port) 🔌 端口检测
+- **比 Vite 更专注**：专门服务于构建产物的静态服务，不参与开发构建过程
+- **比 Nginx 更轻量**：基于 Node.js 开发，无需复杂安装配置，真正做到即装即用
+- **比手动管理更智能**：通过自动化工具解决环境管理和服务调度的复杂性
 
 ---
 
-## English Version
-
-**Lightweight, multi-environment local static server manager**, powered by **Vite**.
-Ideal for small teams or individual developers to test multiple branches locally, without Nginx.
-
-### Key Features
-
-* ⚡ Multi-environment management, quick start on different ports
-* 🔀 Built-in proxy for front-end/back-end integration
-* 🗂 Automatic default page generation
-* 💻 Simple CLI: `vserve start/add/list/remove`
-
-### Installation
-
-```bash
-git clone https://github.com/<your-username>/vite-static-serve.git
-cd vite-static-serve
-npm install
-
-# Optional global install
-npm install -g .
-```
-
-### Usage Example
-
-```bash
-# Add an environment
-npx vserve add dev
-
-# Start environment
-npx vserve start dev
-
-# List environments
-npx vserve list
-
-# Remove environment
-npx vserve remove dev
-```
-
-### Project Structure
-
-```
-bin/
-  serve.js
-dists/
-templates/
-  index.html
-env.config.json
-package.json
-vite.config.js
-.gitignore
-```
-
-### Dependencies
-
-* [vite](https://vitejs.dev/) ⚡ Core service
-* [inquirer](https://www.npmjs.com/package/inquirer) 📝 CLI interaction
-* [chalk](https://www.npmjs.com/package/chalk) 🎨 Terminal highlighting
-* [detect-port](https://www.npmjs.com/package/detect-port) 🔌 Port detection
+**vitepad - 让多环境前端测试变得简单而高效！** 🎯
