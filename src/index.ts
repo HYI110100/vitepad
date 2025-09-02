@@ -64,10 +64,8 @@ async function main(): Promise<void> {
         // 初始化cli
         await createCLI()
 
-
     } catch (error) {
         console.error(error);
-        process.exit(1);
     }
 }
 export { main };

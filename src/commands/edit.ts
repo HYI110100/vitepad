@@ -6,23 +6,14 @@ import { logError } from "~/utils/logger";
  * 命令行方式创建服务
  */
 const command = async (options: CreateCommand): Promise<void> => {
-  try {
 
-
-  } catch (error) {
-    logError('创建服务失败', error);
-  }
 };
 
 /**
  * 交互式创建服务
  */
 const commandWithInquirer = async (options: Partial<CreateCommand>): Promise<void> => {
-  try {
 
-  } catch (error) {
-    logError('错误：', error);
-  }
 };
 
 /**
@@ -40,12 +31,16 @@ export const registerEditCommand = (program: Command): void => {
     .option("-a, --append", "对 proxy 字段使用追加模式（默认覆盖）", false)
     .option('-c, --vite-config <path>', '指定 vite 配置文件路径 (仅preview相关参数有效)')
     .action(async (name, options) => {
-      if (name) {
-        // 命令行模式
-        await command({ name, ...options });
-      } else {
-        // 交互式模式
-        await commandWithInquirer(options);
+      try {
+        if (name) {
+          // 命令行模式
+          await command({ name, ...options });
+        } else {
+          // 交互式模式
+          await commandWithInquirer(options);
+        }
+      } catch (error) {
+        logError('程序被意外中断', error);
       }
     })
 }
