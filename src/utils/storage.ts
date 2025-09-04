@@ -11,7 +11,7 @@ interface JSONStorageOptions {
     spaces?: number;
     /** 文件编码，默认 utf-8 */
     encoding?: BufferEncoding;
-    /** 是否自动保存（默认 true） */
+    /** 是否自动保存（默认 false */
     autoSave?: boolean;
     /** 自动保存的延迟时间（毫秒，默认 500） */
     autoSaveDelay?: number;
@@ -32,7 +32,7 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
             writeDefaultOnInit: true,
             spaces: 2,
             encoding: 'utf-8',
-            autoSave: true,
+            autoSave: false,
             autoSaveDelay: 500,
             ...(options || {})
         };
