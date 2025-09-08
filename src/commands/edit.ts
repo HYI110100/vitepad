@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { CreateCommand } from "~/types/commands";
-import { logError } from "~/utils/logger";
+import { logError, logInfo } from "~/utils/logger";
 
 /**
  * 命令行方式创建服务
@@ -31,6 +31,8 @@ export const registerEditCommand = (program: Command): void => {
     .option("-a, --append", "对 proxy 字段使用追加模式（默认覆盖）", false)
     .option('-c, --vite-config <path>', '指定 vite 配置文件路径 (仅preview相关参数有效)')
     .action(async (name, options) => {
+      logInfo("开发中，暂不支持");
+      return
       try {
         if (name) {
           // 命令行模式
