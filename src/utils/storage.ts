@@ -11,10 +11,6 @@ interface JSONStorageOptions {
     spaces?: number;
     /** 文件编码，默认 utf-8 */
     encoding?: BufferEncoding;
-    /** 是否自动保存（默认 false */
-    autoSave?: boolean;
-    /** 自动保存的延迟时间（毫秒，默认 500） */
-    autoSaveDelay?: number;
 }
 
 export default class JSONStorage<T extends object = { [key: string]: any }> {
@@ -22,7 +18,6 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
     private filePath: string;
     private opts: Required<JSONStorageOptions>;
     private defaultValue: T;
-    private autoSaveTimeout: NodeJS.Timeout | null = null;
     private isInitialized: boolean = false;
 
     constructor(filePath: string, defaultValue?: T, options?: JSONStorageOptions) {
@@ -32,8 +27,6 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
             writeDefaultOnInit: true,
             spaces: 2,
             encoding: 'utf-8',
-            autoSave: false,
-            autoSaveDelay: 500,
             ...(options || {})
         };
         this.defaultValue = defaultValue ? JSON.parse(JSON.stringify(defaultValue)) : {} as T;
@@ -70,16 +63,17 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
      * 获取数据
      * @param key 可选键名，不传则返回全部数据
      */
-    get<K extends keyof T>(key?: K): K extends undefined ? T : T[K] {
+    get(): T;
+    get<K extends keyof T>(key: K): T[K];
+    get<K extends keyof T>(key?: K): T | T[K] {
         this.ensureInitialized();
-        
-        if (key === undefined) {
-            return JSON.parse(JSON.stringify(this._data)) as any;
-        }
-        
-        return this._data[key] as any;
-    }
 
+        if (key === undefined) {
+            return JSON.parse(JSON.stringify(this._data));
+        }
+
+        return this._data[key];
+    }
     /**
      * 设置数据（单个键值对）
      */
@@ -99,17 +93,6 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
             this._data[arg1 as K] = arg2 as T[K];
         }
 
-        await this.scheduleSave();
-    }
-
-    /**
-     * 更新数据（深度合并）
-     */
-    async update(data: Partial<T>): Promise<void> {
-        this.ensureInitialized();
-        
-        this.deepMerge(this._data, data);
-        await this.scheduleSave();
     }
 
     /**
@@ -119,8 +102,7 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
         this.ensureInitialized();
 
         if (key in this._data) {
-            delete this._data[key];
-            await this.scheduleSave();
+            delete this._data[key]
         }
     }
 
@@ -153,25 +135,11 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
      */
     async clear(): Promise<void> {
         this.ensureInitialized();
-        
+
         // 清空但保留对象结构
         for (const key of Object.keys(this._data)) {
             delete this._data[key as keyof T];
         }
-        
-        await this.scheduleSave();
-    }
-
-    /**
-     * 强制立即保存到文件
-     */
-    async forceSave(): Promise<void> {
-        if (this.autoSaveTimeout) {
-            clearTimeout(this.autoSaveTimeout);
-            this.autoSaveTimeout = null;
-        }
-        
-        await this.writeToFile(this._data);
     }
 
     /**
@@ -190,6 +158,14 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
             throw error;
         }
     }
+    
+    /**
+     * 将内存中的数据保存到磁盘
+     */
+    async save(): Promise<void> {
+        this.ensureInitialized();
+        await this.writeToFile(this._data);
+    }
 
     /**
      * 私有方法：确保已初始化
@@ -201,70 +177,24 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
     }
 
     /**
-     * 私有方法：深度合并对象
-     */
-    private deepMerge(target: any, source: any): void {
-        for (const key of Object.keys(source)) {
-            if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
-                this.deepMerge(target[key], source[key]);
-            } else {
-                target[key] = source[key];
-            }
-        }
-    }
-
-    /**
-     * 私有方法：安排自动保存
-     */
-    private async scheduleSave(): Promise<void> {
-        if (!this.opts.autoSave) {
-            return;
-        }
-
-        if (this.autoSaveTimeout) {
-            clearTimeout(this.autoSaveTimeout);
-        }
-
-        this.autoSaveTimeout = setTimeout(() => {
-            this.forceSave().catch(error => {
-                logError('自动保存失败', error);
-            });
-        }, this.opts.autoSaveDelay);
-    }
-
-    /**
      * 私有方法：安全写入文件
      */
     private async writeToFile(data: any): Promise<void> {
         try {
             // 确保目录存在
             await fse.ensureDir(path.dirname(this.filePath));
-            
+
             // 原子写入：先写临时文件，再重命名
             const tempPath = `${this.filePath}.tmp`;
             await fse.writeJson(tempPath, data, {
                 encoding: this.opts.encoding,
                 spaces: this.opts.spaces
             });
-            
+
             await fse.rename(tempPath, this.filePath);
         } catch (error) {
             logError(`写入文件失败: ${this.filePath}`, error);
             throw error;
         }
-    }
-
-    /**
-     * 销毁实例，清理资源
-     */
-    async destroy(): Promise<void> {
-        if (this.autoSaveTimeout) {
-            clearTimeout(this.autoSaveTimeout);
-            this.autoSaveTimeout = null;
-        }
-        
-        // 确保所有挂起的保存操作完成
-        await this.forceSave();
-        this.isInitialized = false;
     }
 }
