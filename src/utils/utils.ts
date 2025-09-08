@@ -1,6 +1,7 @@
 import { join, resolve } from "path";
 import fse from "fs-extra";
 import { homedir } from "os";
+import { ProxyItem } from "~/types/storage";
 
 /**
  * 判断是否开发环境
@@ -104,4 +105,22 @@ const findMinFreePortBinary = (usedPorts: number[], start = 3000) => {
     }
   }
   return start + left;
+}
+
+/**
+ * 解析规则格式
+ */
+export function collectAndParseTarget(value: string) {
+  let targetObj: ProxyItem;
+  
+  const [path, host] = value.split("::", 2);
+  targetObj = {
+    id: uuid(8, 'p_'),
+    original: value,
+    path: path || "",
+    target: host || "",
+    isExplicitPath: !!host,
+  }
+
+  return targetObj
 }
