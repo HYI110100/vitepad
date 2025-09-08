@@ -49,3 +49,6 @@ export async function createService(params: CreateCommand) {
         throw error
     }
 }
+export async function getServices(){
+    return Object.values(ServiceStorage.get())
+}
