@@ -54,7 +54,6 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
             }
             this.isInitialized = true;
         } catch (error) {
-            logError(`初始化存储文件失败: ${this.filePath}`, error);
             throw error;
         }
     }
@@ -154,11 +153,10 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
                 this._data = JSON.parse(JSON.stringify(this.defaultValue));
             }
         } catch (error) {
-            logError(`重新加载数据失败: ${this.filePath}`, error);
             throw error;
         }
     }
-    
+
     /**
      * 将内存中的数据保存到磁盘
      */
@@ -193,7 +191,6 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
 
             await fse.rename(tempPath, this.filePath);
         } catch (error) {
-            logError(`写入文件失败: ${this.filePath}`, error);
             throw error;
         }
     }
