@@ -12,7 +12,8 @@ export interface BaseCommand  {
 export interface CreateCommand extends BaseCommand {
     name: string            // 服务名称
     port?: number           // 网站端口，自增
-    dir?: string            // 网站所在目录
+    dir?: string           // 外部项目服务的路径（用于自动打包更新dist）
+    dist?: string          // 指定项目服务的dist目录（如果为空则再数据 根目录/dists)
     proxy?: string[]  // 多次命令格式 /api::http://api.example.com 自动解析格式
     viteConfig?: string
 }
