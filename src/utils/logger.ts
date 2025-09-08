@@ -28,7 +28,8 @@ export const icons = {
   service: '🔸',
   server: '🌐',
   trash: '🗑️ ',
-  question: '❓'
+  question: '❓',
+  title: '📝'
 };
 
 export const logSection = (message: string) => {
