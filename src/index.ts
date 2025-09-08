@@ -6,6 +6,7 @@ async function validateEnvironment() {
 }
 async function initializeApp() {
     // TODO: 加载数据到内存
+    // TODO: 校验数据完整性、合法性
     await initServiceStorage()
 }
 /**
