@@ -1,10 +1,12 @@
 // 命令
+import { initServiceStorage } from './storage/service';
 
 async function validateEnvironment() {
     // TODO: vite检查
 }
 async function initializeApp() {
     // TODO: 加载数据到内存
+    await initServiceStorage()
 }
 /**
  * 创建 CLI 程序
