@@ -37,3 +37,4 @@ env.config.json
 *.tmp
 *.swp
 snapshot/*.md
+.vitepad
