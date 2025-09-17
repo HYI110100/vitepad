@@ -63,8 +63,8 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
      * @param key 可选键名，不传则返回全部数据
      */
     get(): T;
-    get<K extends keyof T>(key: K): T[K];
-    get<K extends keyof T>(key?: K): T | T[K] {
+    get<K extends keyof T>(key: K): T[K] | undefined;
+    get<K extends keyof T>(key?: K): T | (T[K] | undefined) {
         this.ensureInitialized();
 
         if (key === undefined) {

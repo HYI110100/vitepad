@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import inquirer, { DistinctQuestion } from "inquirer";
-import { deleteServiceAll, deleteService, getServices } from "~/storage/service";
+import { deleteServiceAll, deleteService, getServicesAll, deleteServiceByName, deleteServiceByID } from "~/core/dataManager";
 import { RemoveCommand } from "~/types/commands";
 import { icons, logError, logRunWarning, theme } from "~/utils/logger";
 
@@ -9,14 +9,14 @@ import { icons, logError, logRunWarning, theme } from "~/utils/logger";
  */
 const command = async (options: Omit<RemoveCommand, 'all'>): Promise<void> => {
   options.names = options.names.map(x => x.trim())
-  await deleteService(options.names)
+  await deleteServiceByName(options.names)
 };
 
 /**
  * 交互式创建服务
  */
 const commandWithInquirer = async (_options: Partial<Omit<RemoveCommand, 'names' | 'all'>>): Promise<void> => {
-  const services = await getServices()
+  const services = getServicesAll()
   const query: DistinctQuestion[] = [
     {
       type: 'checkbox',
@@ -28,7 +28,7 @@ const commandWithInquirer = async (_options: Partial<Omit<RemoveCommand, 'names'
 
   const result = await inquirer.prompt(query)
   if (result.deletedServiceIDs && result.deletedServiceIDs.length) {
-    await deleteService(services.filter(x => result.deletedServiceIDs.includes(x.id)).map(x => x.name))
+    await deleteServiceByID(result.deletedServiceIDs)
   }
 };
 

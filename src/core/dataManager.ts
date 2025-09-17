@@ -4,14 +4,8 @@ import { ServiceItem } from "~/types/storage";
 import JSONStorage from "~/utils/storage";
 import { collectAndParseTarget, findAvailablePort, getRootDir, uuid } from "~/utils/utils";
 
-
 const ServiceStorage = new JSONStorage<{ [key: string]: ServiceItem }>(getRootDir('data_service.json'))
-export const initServiceStorage = async () => {
-    await ServiceStorage.init()
-}
-export const getSize =  () => {
-    return ServiceStorage.size()
-}
+// 增
 export async function createService(params: CreateCommand) {
     try {
         const name = params.name.trim()
@@ -52,28 +46,45 @@ export async function createService(params: CreateCommand) {
         throw error
     }
 }
-export async function getServices() {
-    return Object.values(ServiceStorage.get())
-}
-export async function deleteService(names: string[]) {
+// 删
+export async function deleteService(services: ServiceItem[]) {
     try {
-        const services = Object.values(ServiceStorage.get())
-        const notFoundNames = names.filter(name => !services.some(s => s.name === name))
-
-        if (notFoundNames.length > 0) {
-            throw `未找到以下服务：${notFoundNames.join(', ')}`
+        for (let i = 0; i < services.length; i++) {
+            const service = services[i];
+            await ServiceStorage.delete(service.id)
         }
-
-        services.forEach(x => {
-            if (names.includes(x.name)) {
-                ServiceStorage.delete(x.id)
-            }
-        })
 
         await ServiceStorage.save()
     } catch (error) {
         throw error
     }
+}
+export async function deleteServiceByName(data: (string[]) | string) {
+
+    const names = Array.isArray(data) ? data : [data];
+    const services = Object.values(ServiceStorage.get());
+    const targetServices = services.filter(service => names.includes(service.name));
+
+    if (targetServices.length === 0) {
+        throw '未找到指定的服务！';
+    }
+
+    await deleteService(targetServices);
+    return targetServices;
+}
+
+export async function deleteServiceByID(data: (string[]) | string) {
+
+    const ids = Array.isArray(data) ? data : [data];
+    const services = Object.values(ServiceStorage.get());
+    const targetServices = services.filter(service => ids.includes(service.id));
+
+    if (targetServices.length === 0) {
+        throw '未找到指定的服务！';
+    }
+
+    await deleteService(targetServices);
+    return targetServices;
 }
 export async function deleteServiceAll() {
     try {
@@ -83,3 +94,36 @@ export async function deleteServiceAll() {
         throw error
     }
 }
+// 查
+export function getServicesAll() {
+    return Object.values(ServiceStorage.get())
+}
+// export function getServicesByID(ID: string) {
+//     if(!ID){
+//         throw new Error('服务ID不能为空')
+//     }
+//     const service = ServiceStorage.get(ID)
+//     if(!service){
+//         throw new Error('服务不存在')
+//     }
+//     return service
+// }
+// export function getServicesByName(name: string) {
+//     if(!name){
+//         throw new Error('服务名称不能为空')
+//     }
+//     const ID = Object.values(ServiceStorage.get()).find(x => x.name === name)?.id
+//     if(!ID){
+//         throw new Error('服务不存在')
+//     }
+//     return ServiceStorage.get(ID)
+// }
+// 改
+// 其他
+export const initServiceStorage = async () => {
+    await ServiceStorage.init()
+}
+export const getSize = () => {
+    return ServiceStorage.size()
+}
+

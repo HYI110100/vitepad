@@ -2,14 +2,14 @@ import { Command } from "commander";
 import { ListCommand } from "~/types/commands";
 import { icons, logError, logRunWarning, theme } from "~/utils/logger";
 import util from "util";
-import { getServices } from "~/storage/service";
+import { getServicesAll } from "~/core/dataManager";
 
 /**
  * 命令行方式创建服务
  */
 const command = async (options: ListCommand): Promise<void> => {
 
-  const services = await getServices()
+  const services = getServicesAll()
   if (options.json === true && options.detail === true) {
     const serviceDetails = services
     console.log(util.inspect(serviceDetails.map(x => {

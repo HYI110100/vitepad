@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { getSize } from '~/storage/service';
+import { getSize } from '~/core/dataManager';
 
 // 主题颜色配置
 export const theme = {

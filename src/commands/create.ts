@@ -2,7 +2,7 @@ import { Command } from "commander"
 import inquirer, { DistinctQuestion } from "inquirer"
 import { CreateCommand } from "~/types/commands"
 import { logError, logSuccess, theme } from "~/utils/logger"
-import { createService } from "~/storage/service";
+import { createService } from "~/core/dataManager";
 import { PORT_RANGE } from "~/config";
 
 /**
