@@ -108,7 +108,7 @@ const findMinFreePortBinary = (usedPorts: number[], start = 3000) => {
 }
 
 /**
- * 解析规则格式
+ * 解析代理格式
  */
 export function collectAndParseTarget(value: string) {
   let targetObj: ProxyItem;
