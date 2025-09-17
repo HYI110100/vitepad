@@ -10,11 +10,6 @@ import { getServices } from "~/storage/service";
 const command = async (options: ListCommand): Promise<void> => {
 
   const services = await getServices()
-  if (!services.length) {
-    console.log(`\n${icons.info}  ${theme.muted('暂无服务配置')}`);
-    console.log(`${theme.muted('使用 ')}${theme.highlight('vitepad caeate <服务名>')}${theme.muted(' 快速添加新服务')}`);
-    return
-  }
   if (options.json === true && options.detail === true) {
     const serviceDetails = services
     console.log(util.inspect(serviceDetails.map(x => {
