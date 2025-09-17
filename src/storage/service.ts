@@ -49,6 +49,34 @@ export async function createService(params: CreateCommand) {
         throw error
     }
 }
-export async function getServices(){
+export async function getServices() {
     return Object.values(ServiceStorage.get())
+}
+export async function deleteService(names: string[]) {
+    try {
+        const services = Object.values(ServiceStorage.get())
+        const notFoundNames = names.filter(name => !services.some(s => s.name === name))
+
+        if (notFoundNames.length > 0) {
+            throw `未找到以下服务：${notFoundNames.join(', ')}`
+        }
+
+        services.forEach(x => {
+            if (names.includes(x.name)) {
+                ServiceStorage.delete(x.id)
+            }
+        })
+
+        await ServiceStorage.save()
+    } catch (error) {
+        throw error
+    }
+}
+export async function deleteServiceAll() {
+    try {
+        ServiceStorage.clear()
+        await ServiceStorage.save()
+    } catch (error) {
+        throw error
+    }
 }

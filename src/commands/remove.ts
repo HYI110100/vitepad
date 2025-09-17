@@ -1,20 +1,35 @@
 import { Command } from "commander";
 import inquirer, { DistinctQuestion } from "inquirer";
+import { deleteServiceAll, deleteService, getServices } from "~/storage/service";
 import { RemoveCommand } from "~/types/commands";
-import { logError } from "~/utils/logger";
+import { icons, logError, theme } from "~/utils/logger";
 
 /**
  * 命令行方式创建服务
  */
 const command = async (options: Omit<RemoveCommand, 'all'>): Promise<void> => {
-
+  options.names = options.names.map(x => x.trim())
+  await deleteService(options.names)
 };
 
 /**
  * 交互式创建服务
  */
 const commandWithInquirer = async (_options: Partial<Omit<RemoveCommand, 'names' | 'all'>>): Promise<void> => {
+  const services = await getServices()
+  const query: DistinctQuestion[] = [
+    {
+      type: 'checkbox',
+      name: 'deletedServiceIDs',
+      message: '选中要删除的服务',
+      choices: services.map(x => ({ name: x.name, value: x.id }))
+    },
+  ]
 
+  const result = await inquirer.prompt(query)
+  if (result.deletedServiceIDs && result.deletedServiceIDs.length) {
+    await deleteService(services.filter(x => result.deletedServiceIDs.includes(x.id)).map(x => x.name))
+  }
 };
 
 const commandByAll = async () => {
@@ -28,8 +43,7 @@ const commandByAll = async () => {
   ]
   const result = await inquirer.prompt(query);
   if (result.continue === true) {
-    const services: any[] = []  // getServices()
-    // await removeService(services.map(x => x.id))
+    await deleteServiceAll()
   }
 }
 /**
