@@ -9,6 +9,9 @@ const ServiceStorage = new JSONStorage<{ [key: string]: ServiceItem }>(getRootDi
 export const initServiceStorage = async () => {
     await ServiceStorage.init()
 }
+export const getSize =  () => {
+    return ServiceStorage.size()
+}
 export async function createService(params: CreateCommand) {
     try {
         const name = params.name.trim()

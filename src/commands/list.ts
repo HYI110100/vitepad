@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { ListCommand } from "~/types/commands";
-import { icons, logError, theme } from "~/utils/logger";
+import { icons, logError, logRunWarning, theme } from "~/utils/logger";
 import util from "util";
 import { getServices } from "~/storage/service";
 
@@ -113,6 +113,9 @@ export const registeListCommand = (program: Command): void => {
     .option('-r, --run', '查看运行中的服务')
     .action(async (options) => {
       try {
+        if(logRunWarning()){
+          return
+        }
         await command(options)
       } catch (error) {
         logError('程序被意外中断', error);

@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import { getSize } from '~/storage/service';
 
 // 主题颜色配置
 export const theme = {
@@ -87,3 +88,14 @@ ${chalk.magenta('🌐 代理规则、隔离环境')}
 
 `);
 };
+
+export const logRunWarning = () => {
+  if (!getSize()) {
+    console.log(`\n${icons.info}  ${theme.muted('暂无服务配置')}`);
+    console.log(`${theme.muted('使用 ')}${theme.highlight('vitepad caeate <服务名>')}${theme.muted(' 快速添加新服务')}`);
+
+    return true
+  }
+
+  return false
+}

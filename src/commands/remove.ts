@@ -2,7 +2,7 @@ import { Command } from "commander";
 import inquirer, { DistinctQuestion } from "inquirer";
 import { deleteServiceAll, deleteService, getServices } from "~/storage/service";
 import { RemoveCommand } from "~/types/commands";
-import { icons, logError, theme } from "~/utils/logger";
+import { icons, logError, logRunWarning, theme } from "~/utils/logger";
 
 /**
  * 命令行方式创建服务
@@ -58,6 +58,9 @@ export const registerRemoveCommand = (program: Command) => {
     .option('-a, --all', '一键全部移除')
     .action(async (names, options) => {
       try {
+        if(logRunWarning()){
+          return
+        }
         if (options?.all === true && names.length === 0) {
           await commandByAll()
           return

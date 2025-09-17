@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { CreateCommand } from "~/types/commands";
-import { logError, logInfo } from "~/utils/logger";
+import { logError, logInfo, logRunWarning } from "~/utils/logger";
 
 /**
  * 命令行方式创建服务
@@ -34,6 +34,9 @@ export const registerEditCommand = (program: Command): void => {
       logInfo("开发中，暂不支持");
       return
       try {
+        if(logRunWarning()){
+          return
+        }
         if (name) {
           // 命令行模式
           await command({ name, ...options });
