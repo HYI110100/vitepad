@@ -1,5 +1,5 @@
 // 命令
-import { initServiceStorage } from './storage/service';
+import { initServiceStorage } from '~/core/dataManager';
 
 async function validateEnvironment() {
     // TODO: vite检查
