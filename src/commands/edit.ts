@@ -1,20 +1,4 @@
 import { Command } from "commander";
-import { CreateCommand } from "~/types/commands";
-import { logError, logInfo, logRunWarning } from "~/utils/logger";
-
-/**
- * 命令行方式创建服务
- */
-const command = async (options: CreateCommand): Promise<void> => {
-
-};
-
-/**
- * 交互式创建服务
- */
-const commandWithInquirer = async (options: Partial<CreateCommand>): Promise<void> => {
-
-};
 
 /**
  * 注册命令到 Commander
@@ -31,21 +15,6 @@ export const registerEditCommand = (program: Command): void => {
     .option("-a, --append", "对 proxy 字段使用追加模式（默认覆盖）", false)
     .option('-c, --vite-config <path>', '指定 vite 配置文件路径 (仅preview相关参数有效)')
     .action(async (name, options) => {
-      logInfo("开发中，暂不支持");
-      return
-      try {
-        if(logRunWarning()){
-          return
-        }
-        if (name) {
-          // 命令行模式
-          await command({ name, ...options });
-        } else {
-          // 交互式模式
-          await commandWithInquirer(options);
-        }
-      } catch (error) {
-        logError('程序被意外中断', error);
-      }
+      
     })
 }

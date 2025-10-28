@@ -1,30 +1,41 @@
-// 命令
-import { initServiceStorage } from '~/core/dataManager';
+import { registerLogsCommand } from '@/commands/logs.js';
 
 async function validateEnvironment() {
     // TODO: vite检查
+    throw new Error('模拟错误')
 }
 async function initializeApp() {
-    // TODO: 加载数据到内存
     // TODO: 校验数据完整性、合法性
-    await initServiceStorage()
+    // TODO: 加载数据到内存
 }
 /**
  * 创建 CLI 程序
  */
 async function createCLI() {
-    const packagePath = require('path').join(__dirname, "..", "package.json");
-    const version = require(packagePath).version;
-    const { program } = await import('commander')
+    // 从 package.json 导入版本号
+    const { readFile } = await import('fs/promises');
+    const { dirname, join } = await import('path');
+    const { fileURLToPath } = await import('url');
+    
+    // 获取当前文件的目录路径
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    
+    // 读取 package.json
+    const packageJsonPath = join(__dirname, '..', 'package.json');
+    const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf-8'));
+    const version = packageJson.version;
+
+    const { program } = await import('commander');
     program
         .name('vitepad')
         .alias('vpad')
         .version(version)
-        .action(() => {
-            const { logWelcome } = require('./utils/logger');
-            logWelcome()
+        .action(async () => {
+            const { welcome } = await import('./utils/logger.js');
+            welcome()
         });
-    // 注册命令 
+// 注册命令 
     const [
         { registerRemoveCommand },
         { registeListCommand },
@@ -33,12 +44,13 @@ async function createCLI() {
         { registerStopCommand },
         { registerStartCommand }
     ] = await Promise.all([
-        import('~/commands/remove'),
-        import('~/commands/list'),
-        import('~/commands/edit'),
-        import('~/commands/create'),
-        import('~/commands/stop'),
-        import('~/commands/start')
+        import('@/commands/remove.js'),
+        import('@/commands/list.js'),
+        import('@/commands/edit.js'),
+        import('@/commands/create.js'),
+        import('@/commands/stop.js'),
+        import('@/commands/start.js'),
+        import('@/commands/logs.js')
     ])
 
     // 注册所有命令
@@ -48,8 +60,7 @@ async function createCLI() {
     registerEditCommand(program)
     registerStartCommand(program)
     registerStopCommand(program)
-
-    // 解析命令行参数
+    registerLogsCommand(program)
     program.parse();
 }
 
@@ -57,18 +68,13 @@ async function createCLI() {
  * 主函数
  */
 async function main(): Promise<void> {
-    try {
-        // 环境校验
-        await validateEnvironment();
+    // 环境校验
+    await validateEnvironment();
 
-        // 初始化
-        await initializeApp();
+    // 初始化
+    await initializeApp();
 
-        // 初始化cli
-        await createCLI()
-
-    } catch (error) {
-        console.error(error);
-    }
+    // 初始化cli
+    await createCLI()
 }
 export { main };

@@ -1,101 +1,63 @@
 import chalk from 'chalk';
-import { getSize } from '~/core/dataManager';
 
-// 主题颜色配置
-export const theme = {
-  primary: chalk.hex('#3498db'),      // 主色调 - 蓝色
-  success: chalk.hex('#2ecc71'),      // 成功 - 绿色
-  warning: chalk.hex('#f39c12'),      // 警告 - 橙色
-  error: chalk.hex('#e74c3c'),        // 错误 - 红色
-  info: chalk.hex('#9b59b6'),         // 信息 - 紫色
-  debug: chalk.hex('#95a5a6'),        // 调试 - 灰色
-  highlight: chalk.hex('#f1c40f'),    // 高亮 - 金色
-  muted: chalk.hex('#7f8c8d')         // 次要 - 深灰
-};
-
-// 图标和装饰
-export const icons = {
-  check: '✅',
-  cross: '❌',
-  warning: '⚠️ ',
-  info: 'ℹ️ ',
-  debug: '🐛',
-  rocket: '🚀',
-  folder: '📁',
-  port: '🚪',
-  link: '🔗',
-  time: '⏰',
-  list: '📋',
-  service: '🔸',
-  server: '🌐',
-  trash: '🗑️ ',
-  question: '❓',
-  title: '📝'
+// 基础日志函数
+export const log = {
+  // 普通信息
+  info: (message: string) => console.log(chalk.blue('→'), message),
+  
+  // 成功
+  success: (message: string) => console.log(chalk.green('✓'), message),
+  
+  // 错误
+  error: (message: string, detail?: string) => {
+    console.log(chalk.red('✗'), chalk.red(message));
+    if (detail) console.log(chalk.gray('  ' + detail));
+  },
+  
+  // 警告
+  warn: (message: string) => console.log(chalk.yellow('!'), message),
+  
+  // 调试信息
+  debug: (message: string) => console.log(chalk.gray('›'), chalk.gray(message)),
+  
+  // 纯文本（无前缀）
+  text: (message: string) => console.log(message),
+  
+  // 空行
+  br: () => console.log()
 };
 
-export const logSection = (message: string) => {
-  console.log(theme.primary.bold(`\n${message}`));
-  console.log('─'.repeat(message.length * 2));
+// 标题和分隔
+export const title = (message: string) => {
+  console.log(chalk.cyan.bold(`\n${message}`));
+  console.log(chalk.cyan('─'.repeat(message.length)));
 };
 
-export const logSuccess = (message: string, details?: string) => {
-  console.log(`${icons.check}  ${theme.success.bold(message)}`);
-  if (details) {
-    console.log(`   ${theme.muted(details)}`);
-  }
+// 副标题
+export const subtitle = (message: string) => {
+  console.log(chalk.blue.bold(`\n${message}:`));
 };
 
-export const logError = (message: string, error?: any) => {
-  console.log(`${icons.cross}  ${theme.error.bold(message)}`);
-  if (error) {
-    console.log(`   ${theme.muted(error.message || error)}`);
-  }
+// 步骤提示
+export const step = (message: string) => {
+  console.log(chalk.magenta('•'), chalk.bold(message));
 };
 
-export const logWarning = (message: string, detail?: any) => {
-  console.log(`${icons.warning}  ${theme.warning(message)}`);
-  if (detail) {
-    console.log(`   ${theme.muted(detail)}`);
-  }
+// 键值对信息
+export const kv = (key: string, value: string) => {
+  console.log(chalk.gray(`  ${key}:`), value);
 };
-
-export const logInfo = (message: string) => {
-  console.log(`${icons.info}  ${theme.info(message)}`);
-};
-
-export const logDebug = (message: string) => {
-  if (process.env.DEBUG) {
-    console.log(`${icons.debug}  ${theme.debug(message)}`);
-  }
-};
-export const logCancelled = (message: string = "操作已取消", detail?: any) => {
-  console.log(`${icons.cross}  ${theme.muted(message)}`);
-  if (detail) {
-    console.log(`   ${theme.muted(detail)}`);
-  }
-};
-export const logWelcome = () => {
-  console.log(`${chalk.blue.bold(`
+// 欢迎信息
+export const welcome = () => {
+  console.log(chalk.blue.bold(`
 ╔══════════════════════════════════════════════╗
 ║                                              ║
 ║   ${chalk.yellow('🚀 VitePad')} - ${chalk.cyan('Vite多环境管理工具')}            ║
 ║                                              ║
-╚══════════════════════════════════════════════╝`)}
-
-${chalk.green('✨ 轻松管理多个Vite环境')}
-${chalk.cyan('📦 并行测试、端口智能分配')}
-${chalk.magenta('🌐 代理规则、隔离环境')}
-
-`);
+╚══════════════════════════════════════════════╝
+`));
+  log.text(chalk.green('✨ 轻松管理多个Vite环境'));
+  log.text(chalk.cyan('📦 并行测试、端口智能分配')); 
+  log.text(chalk.magenta('🌐 代理规则、隔离环境'));
+  log.br();
 };
-
-export const logRunWarning = () => {
-  if (!getSize()) {
-    console.log(`\n${icons.info}  ${theme.muted('暂无服务配置')}`);
-    console.log(`${theme.muted('使用 ')}${theme.highlight('vitepad caeate <服务名>')}${theme.muted(' 快速添加新服务')}`);
-
-    return true
-  }
-
-  return false
-}

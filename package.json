@@ -2,12 +2,13 @@
   "name": "vitepad",
   "version": "0.0.1",
   "main": "dist/index.js",
-  "type": "commonjs",
+  "type": "module",
   "bin": {
-    "vitepad": "./dist/bin/vitepad.js"
+    "vitepad": "./dist/cli.js",
+    "vpad": "./dist/cli.js"
   },
   "scripts": {
-    "dev":  "concurrently \"tsc -w\" \"tsc-alias -w\" \"npm link\"",
+    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\" \"npm link\"",
     "build": "tsc && tsc-alias",
     "ss": "node ./snapshot/index.js"
   },
@@ -32,9 +33,10 @@
   "license": "MIT",
   "description": "Quickly start and manage multiple local environments for front-end testing, with Vite and optional proxy",
   "engines": {
-    "node": ">=14.18.0"
+    "node": ">=14.18"
   },
   "devDependencies": {
+    "@types/chalk": "^0.4.31",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.3.0",
     "concurrently": "^9.2.1",
@@ -42,7 +44,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.6.2",
     "commander": "^14.0.0",
     "fs-extra": "^11.3.1",
     "inquirer": "^12.9.3"
