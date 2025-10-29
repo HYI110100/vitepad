@@ -1,4 +1,4 @@
-import { Command } from "commander"
+import type { Command } from "commander"
 
 /**
  * 注册命令到 Commander
@@ -15,6 +15,6 @@ export const registerCreateCommand = (program: Command): void => {
     .option('-x, --proxy <target::host...>', '代理规则格式：路径::目标地址，如：/api::http://api.example.com')
     .option('-c, --vite-config <path>', '指定 vite 配置文件路径 (仅preview相关参数有效)')
     .action(async (name, options) => {
-      
+
     })
 }
