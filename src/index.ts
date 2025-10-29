@@ -1,8 +1,5 @@
-import { registerLogsCommand } from '~/commands/logs.js';
-
 async function validateEnvironment() {
     // TODO: vite检查
-    throw new Error('模拟错误')
 }
 async function initializeApp() {
     // TODO: 校验数据完整性、合法性
@@ -42,7 +39,8 @@ async function createCLI() {
         { registerEditCommand },
         { registerCreateCommand },
         { registerStopCommand },
-        { registerStartCommand }
+        { registerStartCommand },
+        { registerLogsCommand }
     ] = await Promise.all([
         import('~/commands/remove.js'),
         import('~/commands/list.js'),
