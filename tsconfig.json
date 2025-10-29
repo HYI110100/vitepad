@@ -17,10 +17,10 @@
     "noUnusedParameters": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@commands/*": ["./src/commands/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@types/*": ["./src/types/*"]
+      "~/*": ["./src/*"],
+      "~commands/*": ["./src/commands/*"],
+      "~utils/*": ["./src/utils/*"],
+      "~types/*": ["./src/types/*"]
     }
   },
   "include": ["src/**/*"],

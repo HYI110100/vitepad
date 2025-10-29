@@ -1,4 +1,4 @@
-import { registerLogsCommand } from '@/commands/logs.js';
+import { registerLogsCommand } from '~/commands/logs.js';
 
 async function validateEnvironment() {
     // TODO: vite检查
@@ -44,13 +44,13 @@ async function createCLI() {
         { registerStopCommand },
         { registerStartCommand }
     ] = await Promise.all([
-        import('@/commands/remove.js'),
-        import('@/commands/list.js'),
-        import('@/commands/edit.js'),
-        import('@/commands/create.js'),
-        import('@/commands/stop.js'),
-        import('@/commands/start.js'),
-        import('@/commands/logs.js')
+        import('~/commands/remove.js'),
+        import('~/commands/list.js'),
+        import('~/commands/edit.js'),
+        import('~/commands/create.js'),
+        import('~/commands/stop.js'),
+        import('~/commands/start.js'),
+        import('~/commands/logs.js')
     ])
 
     // 注册所有命令
