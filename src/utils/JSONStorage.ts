@@ -1,6 +1,6 @@
 import path from "path";
 import fse from 'fs-extra';
-import { log } from "@utils/logger";
+import { logger } from "~/utils/logger.js";
 
 interface JSONStorageOptions {
     /** 如果文件不存在，init 时是否自动创建文件（默认 false） */
@@ -43,12 +43,13 @@ export default class JSONStorage<T extends object = { [key: string]: any }> {
 
         try {
             const exists = await fse.pathExists(this.filePath);
+            
             if (exists) {
                 this._data = await fse.readJson(this.filePath);
             } else {
                 if (this.opts.initIfNotExist) {
                     await this.writeToFile(this.opts.writeDefaultOnInit ? this.defaultValue : {});
-                    log.info(`文件不存在，已创建文件: ${this.filePath}`);
+                    logger.info(`文件不存在，已创建文件:`, this.filePath);
                 }
                 this._data = JSON.parse(JSON.stringify(this.defaultValue));
             }
