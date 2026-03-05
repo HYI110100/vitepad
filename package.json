@@ -8,10 +8,10 @@
     "vpad": "./dist/cli.js"
   },
   "scripts": {
-    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\"",
+    "dev": "concurrently \"tsc -w\" \"tsc-alias -w\" \"node test-dist/copy.js\" ",
     "link": "npm link",
     "unlink": "npm unlink",
-    "build": "tsc && tsc-alias",
+    "build": "tsc && tsc-alias && node test-dist/copy.js",
     "start": "node dist/index.js",
     "dev:run": "npm run dev & sleep 2 && node dist/index.js",
     "ss": "node ./snapshot/index.js"
