@@ -1,12 +1,18 @@
 import chalk from 'chalk';
 
 // 基础日志函数
-export const log = {
+export const logger = {
   // 普通信息
-  info: (message: string) => console.log(chalk.blue('→'), message),
+  info: (message: string, detail?: string) => {
+    console.log(chalk.blue('→'), message);
+    if (detail) console.log(chalk.gray('  ' + detail));
+  },
   
   // 成功
-  success: (message: string) => console.log(chalk.green('✓'), message),
+  success: (message: string, detail?: string) => {
+    console.log(chalk.green('✓'), message);
+    if (detail) console.log(chalk.gray('  ' + detail));
+  },
   
   // 错误
   error: (message: string, detail?: string) => {
@@ -15,10 +21,16 @@ export const log = {
   },
   
   // 警告
-  warn: (message: string) => console.log(chalk.yellow('!'), message),
+  warn: (message: string, detail?: string) => {
+    console.log(chalk.yellow('!'), message);
+    if (detail) console.log(chalk.gray('  ' + detail));
+  },
   
   // 调试信息
-  debug: (message: string) => console.log(chalk.gray('›'), chalk.gray(message)),
+  debug: (message: string, detail?: string) => {
+    console.log(chalk.gray('›'), chalk.gray(message));
+    if (detail) console.log(chalk.gray('  ' + detail));
+  },
   
   // 纯文本（无前缀）
   text: (message: string) => console.log(message),
@@ -56,8 +68,10 @@ export const welcome = () => {
 ║                                              ║
 ╚══════════════════════════════════════════════╝
 `));
-  log.text(chalk.green('✨ 轻松管理多个Vite环境'));
-  log.text(chalk.cyan('📦 并行测试、端口智能分配')); 
-  log.text(chalk.magenta('🌐 代理规则、隔离环境'));
-  log.br();
+  logger.text(chalk.green('✨ 轻松管理多个Vite环境'));
+  logger.text(chalk.cyan('📦 并行测试、端口智能分配')); 
+  logger.text(chalk.magenta('🌐 代理规则、隔离环境'));
+  logger.br();
+  logger.text(chalk.gray('输入 vitepad --h 查看所有命令'));
+  logger.br();
 };
