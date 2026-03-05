@@ -6,8 +6,6 @@ export interface ServiceConfig {
   distDir: string;               // 构建目录（项目构建产物目录，用于复制到隔离环境）
   workDir: string;               // 工作目录（隔离环境目录，用于运行服务）
   proxy: Record<string, string>; // 代理配置
-  status: 'stopped' | 'running'; // 服务状态
-  pid: number;                  // 进程 ID
   createdAt: string;            // 创建时间
   updatedAt: string;            // 更新时间
   // TODO:: 增加项目目录 projectDir 字段 【待开发】
