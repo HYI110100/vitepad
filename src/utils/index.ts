@@ -95,3 +95,14 @@ export async function getVersion() {
     return 'unknown';
   }
 }
+
+/**
+ * 生成一个随机的 UUID
+ * @param {number} [length=8] - UUID 的长度，默认为 8
+ * @param {string} [prefix=''] - UUID 的前缀，默认为空字符串
+ * @returns {string} 生成的 UUID
+ */
+export function uuid(length: number = 8, prefix: string = ''): string {
+  const uuid = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+  return prefix + uuid.substring(0, length);
+}
