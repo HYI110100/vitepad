@@ -91,7 +91,8 @@ function isPathDenied(relUnix, matchers) {
       '.vscode/**',
       'LICENSE',
       'snapshot',
-      'snapshot/**'
+      'snapshot/**',
+      "pnpm-lock.yaml"
     ],
     includeHidden: false,
     maxFileSizeBytes: 1024 * 1024 * 5,
