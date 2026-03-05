@@ -10,6 +10,7 @@ const rootDir = getAppRootDir('.vitepad');
 const appConfig: AppConfig = {
     rootDir,
     isolateRoot: path.join(rootDir, 'services'),
+    defaultPortStart: 3000,
 };
 
 async function configStorageInit() {
@@ -17,13 +18,12 @@ async function configStorageInit() {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
     
-    const defaultPortStart = 3000;
     const vitepadDemo: ServiceConfig = {
         id: 's_vitepad',
         distDir: path.join(__dirname, '..', 'test-dist'),
         workDir: path.join(appConfig.isolateRoot, 'VitepadDemo'),
         name: 'vitepad-demo',
-        port: defaultPortStart,
+        port: appConfig.defaultPortStart,
         proxy: parseProxyOptions([]),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -36,7 +36,7 @@ async function configStorageInit() {
             },
             config: {
                 logLevel: 'info',
-                defaultPortStart,
+                defaultPortStart: appConfig.defaultPortStart,
             }
         }
     );

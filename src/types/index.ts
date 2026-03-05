@@ -29,4 +29,6 @@ export interface AppConfig {
     rootDir: string;
     // 服务隔离环境根目录
     isolateRoot: string;
+    // 默认服务端口起始值（动态分配端口时使用）
+    defaultPortStart: number;
 }
